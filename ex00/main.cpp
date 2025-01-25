@@ -6,7 +6,7 @@
 /*   By: adprzyby <adprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 14:39:18 by adprzyby          #+#    #+#             */
-/*   Updated: 2025/01/25 14:55:40 by adprzyby         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:40:48 by adprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,6 @@ int main(int argc, char** argv) {
 		std::cerr << RED << "Error: " << NC << "could not open the fille." << std::endl;
 		return 1;
 	}
+	parseExchangeDatabase(argv[1]);
 	return 0;
 }
