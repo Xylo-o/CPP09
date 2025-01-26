@@ -6,7 +6,7 @@
 /*   By: adprzyby <adprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 14:34:48 by adprzyby          #+#    #+#             */
-/*   Updated: 2025/01/25 20:34:13 by adprzyby         ###   ########.fr       */
+/*   Updated: 2025/01/26 20:23:54 by adprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,55 +19,47 @@ bool checkFile(const std::string& str) {
 	return false;
 }
 
+int parseExchangeDatabase(const std::string& data, std::map<std::string, float>& dataBase) {
+    std::ifstream file(data);
+    if (!file.is_open()) {
+        std::cerr << "Error: Failed to open file." << std::endl;
+        return 1;
+    }
+    std::string line;
+    bool header = true;
+    while (std::getline(file, line)) {
+        if (header) {
+            header = false;
+            continue;
+        }
+        std::istringstream lineStream(line);
+        std::string date, valueStr;
 
-int parseExchangeDatabase(const std::string& data) {
-	std::ifstream file(data);
-	if (!file.is_open()) {
-		std::cerr << RED << "Error: " << NC << "failed to open file." << std::endl;
-		return 1;
-	}
-	std::string line;
-	while (std::getline(file, line)) {
-		std::map<int, std::string> bitcoinDB = splitToTokens(line);
-		for (const auto& pair : bitcoinDB) {
-            if (checkDate(pair.second)) {
-                std::cout << "Valid date found: " << pair.second << std::endl;
-            } else if (checkValue(pair.second)) {
-                std::cout << "Valid number found: " << pair.second << std::endl;
-            } else {
-                std::cout << "Invalid token: " << pair.second << std::endl;
-            }
-		}
-	}
-	file.close();
-	return 0;
-}
-
-std::map<int, std::string> splitToTokens(const std::string& line) {
-	std::map<int, std::string> tokens;
-	std::istringstream iss(line);
-	std::string token;
-	int index = 0;
-	while (std::getline(iss, token, ',')) {
-		tokens[index++] = token;
-	}
-	return tokens;
+        if (!std::getline(lineStream, date, ',') || !std::getline(lineStream, valueStr)) {
+            std::cerr << "Error: Incomplete line: " << line << std::endl;
+            continue;
+        }
+        try {
+            float value = std::stof(valueStr);
+            dataBase[date] = value;
+        } catch (const std::exception& e) {
+            std::cerr << "Error: Failed to process value in line: " << line << " (" << e.what() << ")" << std::endl;
+        }
+    }
+    file.close();
+    return 0;
 }
 
 bool checkDate(const std::string& date) {
-	std::regex datePattern(R"(\\d{4}-\d{2}-\d{2})");
+	std::regex datePattern(R"(\d{4}-\d{2}-\d{2})");
 	return std::regex_match(date, datePattern);
 }
 
 bool checkValue(const std::string& value) {
-	std::regex floatPattern(R"(^\d+(\.\d+)?&)");
-	std::regex intPattern(R"(^\d+$)");
-	if (std::regex_match(value, floatPattern) || std::regex_match(value, intPattern)) {
-		std::regex rangePattern(R"(^([0-9]|[1-9][0-9]{1,2}|1000)(\.\d+)?$)");
-		return std::regex_match(value, rangePattern);
-	}
-	return false;
+    std::regex rangePattern(R"(^([0-9]|[1-9][0-9]{1,2}|1000)(\.\d+)?$)");
+    return std::regex_match(value, rangePattern);
 }
+
 
 // int parseInputFile(const std::string& data) {
 // 	std::ifstream file(data);
@@ -76,6 +68,8 @@ bool checkValue(const std::string& value) {
 // 	}
 // 	std::string line;
 // 	while (std::getline(file, line)) {
-// 		std::cout << line << std::endl;
+    // std::cout << "Date: " << date << ", Value: " << value << std::endl;
+    // checkDate(date);
+	// checkValue(value);
 // 	}
 // }
