@@ -6,7 +6,7 @@
 /*   By: adprzyby <adprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 14:39:18 by adprzyby          #+#    #+#             */
-/*   Updated: 2025/01/26 20:48:53 by adprzyby         ###   ########.fr       */
+/*   Updated: 2025/01/26 22:35:54 by adprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
 	if (parseExchangeDatabase("data.csv", database) != 0) {
 		std::cerr << RED << "Error: " << NC << "could not load the database." << std::endl;
 	}
-	if (parseInputFile(argv[1]) != 0) {
+	if (parseInputFile(argv[1], database) != 0) {
 		std::cerr << RED << "Error: " << NC << "could not load the file." << std::endl;
 	}
 	return 0;
