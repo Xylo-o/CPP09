@@ -1,8 +1,9 @@
-NAME := easy
+NAME := RPN
 CC := c++
 CCFLAGS := -Werror -Wextra -Wall -std=c++98
 
 SRC := main.cpp \
+	RPN.cpp
 
 OBJ := $(SRC:.cpp=.o)
 
