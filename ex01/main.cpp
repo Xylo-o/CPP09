@@ -6,7 +6,7 @@
 /*   By: adprzyby <adprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 14:38:37 by adprzyby          #+#    #+#             */
-/*   Updated: 2025/01/27 17:26:52 by adprzyby         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:46:26 by adprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,12 @@ int main (int argc, char** argv) {
 		std::cerr << RED << "Error: " << NC << "correct usage : ./RPN \"expression\"" << std::endl;
 		return 1;
 	}
-	int result = calculatePoland(argv[1]);
-	std::cout << GREEN << "The result is: " << result << NC << std::endl;
+    try {
+        int result = calculatePoland(argv[1]);
+        std::cout << GREEN <<  "Result: " << NC << result << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << RED << "Error: " << NC << e.what() << std::endl;
+        return 1;
+    }
 	return 0;
 }
