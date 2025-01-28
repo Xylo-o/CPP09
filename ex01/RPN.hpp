@@ -6,7 +6,7 @@
 /*   By: adprzyby <adprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 14:38:43 by adprzyby          #+#    #+#             */
-/*   Updated: 2025/01/27 17:40:25 by adprzyby         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:50:17 by adprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <sstream>
 #include <string>
 #include <stdexcept>
+#include <regex>
 
 int calculatePoland(const std::string& input);
 bool isOperator(const std::string& token);
