@@ -1,8 +1,9 @@
-NAME := easy
+NAME := PmergeMe
 CC := c++
 CCFLAGS := -Werror -Wextra -Wall -std=c++98
 
 SRC := main.cpp \
+	PmergeMe.cpp
 
 OBJ := $(SRC:.cpp=.o)
 
