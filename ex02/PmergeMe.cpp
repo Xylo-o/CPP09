@@ -6,7 +6,7 @@
 /*   By: adprzyby <adprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 14:38:48 by adprzyby          #+#    #+#             */
-/*   Updated: 2025/01/28 19:19:00 by adprzyby         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:45:35 by adprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,26 @@ bool parseInput(int argc, char** argv, std::vector<int> vect, std::deque<int> de
 		deq.push_back(num);
 	}
 	return true;
+}
+
+void printSequence(const std::string& prefix, const std::vector<int>& vect) {
+    std::cout << prefix << " ";
+    for (size_t i = 0; i < vect.size(); i++) {
+        std::cout << vect[i];
+        if (i + 1 < vect.size()) {
+            std::cout << " ";
+        }
+    }
+    std::cout << std::endl;
+}
+
+void printSequence(const std::string& prefix, const std::deque<int>& deq) {
+    std::cout << prefix << " ";
+    for (size_t i = 0; i < deq.size(); i++) {
+        std::cout << deq[i];
+        if (i + 1 < deq.size()) {
+            std::cout << " ";
+        }
+    }
+    std::cout << std::endl;
 }
