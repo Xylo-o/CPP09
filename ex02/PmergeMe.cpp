@@ -6,13 +6,13 @@
 /*   By: adprzyby <adprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 14:38:48 by adprzyby          #+#    #+#             */
-/*   Updated: 2025/01/29 15:24:57 by adprzyby         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:04:11 by adprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
-bool parseInput(int argc, char** argv, std::vector<int> vect, std::deque<int> deq) {
+bool parseInput(int argc, char** argv, std::vector<int>& vect, std::deque<int>& deq) {
 	if (argc < 2) {
 		std::cerr << RED << "Error: " << NC << "invalid usage.\nCorrect usage: ./PmergeMe <arguments>" << std::endl;
 		return false;
@@ -46,7 +46,7 @@ bool parseInput(int argc, char** argv, std::vector<int> vect, std::deque<int> de
 }
 
 void printSequence(const std::string& prefix, const std::vector<int>& vect) {
-    std::cout << prefix << " ";
+    std::cout << prefix;
     for (size_t i = 0; i < vect.size(); i++) {
         std::cout << vect[i];
         if (i + 1 < vect.size()) {
@@ -57,7 +57,7 @@ void printSequence(const std::string& prefix, const std::vector<int>& vect) {
 }
 
 void printSequence(const std::string& prefix, const std::deque<int>& deq) {
-    std::cout << prefix << " ";
+    std::cout << prefix;
     for (size_t i = 0; i < deq.size(); i++) {
         std::cout << deq[i];
         if (i + 1 < deq.size()) {
@@ -67,23 +67,30 @@ void printSequence(const std::string& prefix, const std::deque<int>& deq) {
     std::cout << std::endl;
 }
 
-void sortDeq(const std::deque<int>& deq) {
-	if (deq.size() < 2) {
-		return;
-	}
-	std::deque<int> bigger;
-	std::deque<int> smaller;
-	for (size_t i = 0; i < deq.size(); i += 2) {
-		if (i + 1 < deq.size()) {
-			int first = deq[i];
-			int second = deq[i+1];
-			if (second < first) {
-				std::swap(first, second);
-			}
-			bigger.push_back(first);
-			smaller.push_back(second);
-		} else {
-			bigger.push_back(deq[i]);
-		}
-	}
+void sortDeq(std::deque<int>& deq) {
+    if (deq.size() < 2) {
+        return;
+    }
+    std::deque<int> leaders;
+    std::deque<int> followers;
+    for (size_t i = 0; i < deq.size(); i += 2) {
+        if (i + 1 < deq.size()) {
+            int first = deq[i];
+            int second = deq[i + 1];
+            if (second < first) {
+                std::swap(first, second);
+            }
+            leaders.push_back(first);
+            followers.push_back(second);
+        } else {
+            leaders.push_back(deq[i]);
+        }
+    }
+    std::vector<int> tempLeaders(leaders.begin(), leaders.end());
+    std::sort(tempLeaders.begin(), tempLeaders.end());
+    for (int follower : followers) {
+        auto pos = std::lower_bound(tempLeaders.begin(), tempLeaders.end(), follower);
+        tempLeaders.insert(pos, follower);
+    }
+    deq.assign(tempLeaders.begin(), tempLeaders.end());
 }
