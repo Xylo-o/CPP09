@@ -6,7 +6,7 @@
 /*   By: adprzyby <adprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 14:38:48 by adprzyby          #+#    #+#             */
-/*   Updated: 2025/01/29 16:36:10 by adprzyby         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:58:13 by adprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ bool parseInput(int argc, char** argv, std::vector<int>& vect, std::deque<int>& 
 	return true;
 }
 
+void removeDuplicates(std::vector<int>& vect) {
+	std::sort(vect.begin(), vect.end());
+	vect.erase(std::unique(vect.begin(), vect.end()), vect.end());
+}
+
+void removeDuplicates(std::deque<int>& deq) {
+	std::sort(deq.begin(), deq.end());
+	deq.erase(std::unique(deq.begin(), deq.end()), deq.end());
+}
+
 void printSequence(const std::string& prefix, const std::vector<int>& vect) {
     std::cout << prefix;
     for (size_t i = 0; i < vect.size(); i++) {
@@ -67,6 +77,7 @@ void sortDeq(std::deque<int>& deq) {
     if (deq.size() < 2) {
         return;
     }
+	removeDuplicates(deq);
     std::deque<int> leaders;
     std::deque<int> followers;
     for (size_t i = 0; i < deq.size(); i += 2) {
@@ -95,6 +106,7 @@ void sortVect(std::vector<int>& vect) {
 	if (vect.size() < 2) {
 		return;
 	}
+	removeDuplicates(vect);
 	std::vector<int> leaders;
 	leaders.reserve(vect.size() / 2 + 1);
 	std::vector<int> followers;
