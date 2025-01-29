@@ -6,7 +6,7 @@
 /*   By: adprzyby <adprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 14:38:48 by adprzyby          #+#    #+#             */
-/*   Updated: 2025/01/29 16:04:11 by adprzyby         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:36:10 by adprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,6 @@ bool parseInput(int argc, char** argv, std::vector<int>& vect, std::deque<int>& 
 			std::cerr << RED << "Error: " << NC << "given argument is out of range: " << RED << arg << NC << std::endl;
 			return false;
 		}
-		// if (num <= 0) {
-		// 	std::cerr << RED << "Error: " << NC << "given number mus be postive: " << RED << arg << NC << std::endl;
-		// 	return false;
-		// }
 		vect.push_back(static_cast<int>(num));
 		deq.push_back(static_cast<int> (num));
 	}
@@ -93,4 +89,34 @@ void sortDeq(std::deque<int>& deq) {
         tempLeaders.insert(pos, follower);
     }
     deq.assign(tempLeaders.begin(), tempLeaders.end());
+}
+
+void sortVect(std::vector<int>& vect) {
+	if (vect.size() < 2) {
+		return;
+	}
+	std::vector<int> leaders;
+	leaders.reserve(vect.size() / 2 + 1);
+	std::vector<int> followers;
+	followers.reserve(vect.size() / 2 + 1);
+	for (size_t i = 0; i < vect.size(); i += 2) {
+		if (i + 1 < vect.size()) {
+			int first = vect[i];
+			int second = vect[i + 1];
+			if (second < first) {
+				std::swap(first, second);
+			}
+			leaders.push_back(first);
+			followers.push_back(second);
+		} else {
+			leaders.push_back(vect[i]);
+		}
+	}
+	std::sort(leaders.begin(), leaders.end());
+	for (size_t i = 0; i < followers.size(); i++) {
+		int follower = followers[i];
+		auto pos = std::lower_bound(leaders.begin(), leaders.end(), follower);
+		leaders.insert(pos, follower);
+	}
+	vect = leaders;
 }
