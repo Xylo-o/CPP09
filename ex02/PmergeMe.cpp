@@ -6,7 +6,7 @@
 /*   By: adprzyby <adprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 14:38:48 by adprzyby          #+#    #+#             */
-/*   Updated: 2025/01/28 19:45:35 by adprzyby         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:24:57 by adprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ bool parseInput(int argc, char** argv, std::vector<int> vect, std::deque<int> de
 		// 	std::cerr << RED << "Error: " << NC << "given number mus be postive: " << RED << arg << NC << std::endl;
 		// 	return false;
 		// }
-		vect.push_back(num);
-		deq.push_back(num);
+		vect.push_back(static_cast<int>(num));
+		deq.push_back(static_cast<int> (num));
 	}
 	return true;
 }
@@ -65,4 +65,25 @@ void printSequence(const std::string& prefix, const std::deque<int>& deq) {
         }
     }
     std::cout << std::endl;
+}
+
+void sortDeq(const std::deque<int>& deq) {
+	if (deq.size() < 2) {
+		return;
+	}
+	std::deque<int> bigger;
+	std::deque<int> smaller;
+	for (size_t i = 0; i < deq.size(); i += 2) {
+		if (i + 1 < deq.size()) {
+			int first = deq[i];
+			int second = deq[i+1];
+			if (second < first) {
+				std::swap(first, second);
+			}
+			bigger.push_back(first);
+			smaller.push_back(second);
+		} else {
+			bigger.push_back(deq[i]);
+		}
+	}
 }
